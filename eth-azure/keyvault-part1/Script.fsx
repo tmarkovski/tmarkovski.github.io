@@ -31,9 +31,9 @@ let toList<'a> (collection:'a list) = new List<'a>(collection)
 
 let toHex (x:byte) = x.ToString("x2")
 
-let vaultUri = "https://ethkeyvault.vault.azure.net/"
-let clientId = "http://a875791a-2813-4da8-8fcb-a532417ba07d"
-let clientSecret = "df233a56-9d7e-46d9-8af9-4f31b8da9ce0"
+let vaultUri = "..."
+let clientId = "..."
+let clientSecret = "..."
 
 type AuthenticationCallback = KeyVaultClient.AuthenticationCallback
 type Buffer = byte array
