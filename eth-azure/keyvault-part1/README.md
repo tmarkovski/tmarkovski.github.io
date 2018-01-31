@@ -74,5 +74,7 @@ val it : KeyBundle =
      Managed = null;
      Tags = null;}
 ```
-Notice that the repsonse contains the public key in [JSON Web Key](https://tools.ietf.org/html/rfc7517) format. For elliptic curve, the values X and Y represent the points on the curve. Value D represents the private key in JWK format, but this is never returned.
+Notice that the repsonse contains the public key in [JSON Web Key](https://tools.ietf.org/html/rfc7517) format. For elliptic curve, the values X and Y represent the points on the curve. Value D represents the private key in JWK format, but D is never returned. We will need the the public key to derive the Ethereum address and later to find the recovery id during the process of signing.
+
+### Derive Ethereum address
 
