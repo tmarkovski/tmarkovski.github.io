@@ -1,17 +1,19 @@
 # Securing Ethereum keys with Azure Key Vault
+###### Author: [Tomislav Markovski](https://tmarkovski.github.com/)
 This is a multi part article showcasing interaction with Ethereum blockchain using keys secured in Azure Key Vault. I wasn't able to find any articles on this, most resources available use the web3 tools to generate keys.
 * * *
 ## Part 1: Generating keys
 
 - [Setup access to Key Vault](#setup-access-to-key-vault)
 - [Derive Ethereum address](#derive-ethereum-address)
+- [Running the sample](#running-the-sample)
 
 In this part I'll show how to create EC keys and generate Ethereum address from the public key using Azure Key Vault.
 Last year, Microsoft added support to [Key Vault](https://azure.microsoft.com/en-us/pricing/details/key-vault/) for elliptic curve keys including secp256k1 curve. Important thing to note is that this curve is only available for Key Vault under Premium SKU, not Standard.
 
 The sample code uses [Bouncy Castle](https://www.nuget.org/packages/Portable.BouncyCastle/) and [Azure Key Vault](https://www.nuget.org/packages/Microsoft.Azure.KeyVault/2.4.0-preview) preview package for .NET. Code is in F#, but it's easy to understand and recode to your flavor.
 
-Full script source is available here.
+Full script source is available [here](https://github.com/tmarkovski/tmarkovski.github.io/blob/master/eth-azure/keyvault-part1/Script.fsx).
 
 ### Setup access to Key Vault
 The code assumes that Key Vault is configured with a service principal access, but this can adjusted to fit any authentication scenario.
@@ -109,7 +111,7 @@ let getAddress (pubKey:Buffer) : string =
 ```
 
 ### Running the sample
-We're finally ready to run some sample codes.
+We're finally ready to run some code.
 
 Create a key for Bob
 ```fsharp
@@ -126,3 +128,9 @@ getKey "bob"
 
 // 0xd2b70621c23ad7c65be579999021dd87b16fe522
 ```
+
+That's it! Bob is now ready to talk to the blockchain.
+
+Check out the [entire script code](https://github.com/tmarkovski/tmarkovski.github.io/blob/master/eth-azure/keyvault-part1/Script.fsx). I generated a sample project with `dotnet new console -lang f#` and just played with a the script file and F# interactive.
+
+Feel free to reach out with any [questions or issues](https://github.com/tmarkovski/tmarkovski.github.io/issues).
