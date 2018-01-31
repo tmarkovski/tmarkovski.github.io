@@ -9,7 +9,7 @@ The sample code uses [Bouncy Castle](https://www.nuget.org/packages/Portable.Bou
 
 Full script source is available here.
 
-### Key Vault access
+### Setup access to Key Vault
 The code assumes that Key Vault is configured with a service principal access, but this can adjusted to fit any authentication scenario.
 
 ```fsharp
@@ -77,4 +77,16 @@ val it : KeyBundle =
 Notice that the repsonse contains the public key in [JSON Web Key](https://tools.ietf.org/html/rfc7517) format. For elliptic curve, the values X and Y represent the points on the curve. Value D represents the private key in JWK format, but D is never returned. We will need the the public key to derive the Ethereum address and later to find the recovery id during the process of signing.
 
 ### Derive Ethereum address
-
+In order to obtain the Ethereum address, we need to first restore the full public key. This is done by concatenating the X and Y arrays.
+```fsharp
+let getPubKey (bundle:KeyBundle) : Buffer = 
+     Array.concat [| bundle.Key.X; bundle.Key.Y |]
+```
+The buffer is then hashed using Keccak-256 function. We can use Bouncy Castle's implementation for this step.
+```fsharp
+let computeHash (digest:IDigest) (data:Buffer) : Buffer =
+    let result = digest.GetDigestSize() |> Array.zeroCreate
+    digest.BlockUpdate(data, 0, data.Length)
+    digest.DoFinal(result, 0) |> ignore
+    result
+```
