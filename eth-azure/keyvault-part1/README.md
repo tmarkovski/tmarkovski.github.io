@@ -1,6 +1,6 @@
 # Securing Ethereum keys with Azure Key Vault
 ###### Author: [Tomislav Markovski](https://tmarkovski.github.com/)
-This is a multi part article showcasing interaction with Ethereum blockchain using keys secured in Azure Key Vault. I wasn't able to find any articles on this, most resources available use the web3 tools to generate keys, so I decided to share my findings using .NET.
+This is a multi part article showcasing interaction with Ethereum blockchain using keys secured in Azure Key Vault. I wasn't able to find any articles on this, most resources available use the web3 tools to generate keys, so I decided to share my findings using .NET and Azure.
 * * *
 ## Part 1: Generating keys
 
