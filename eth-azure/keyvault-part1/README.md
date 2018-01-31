@@ -77,7 +77,7 @@ val it : KeyBundle =
 Notice that the repsonse contains the public key in [JSON Web Key](https://tools.ietf.org/html/rfc7517) format. For elliptic curve, the values X and Y represent the points on the curve. Value D represents the private key in JWK format, but D is never returned. We will need the the public key to derive the Ethereum address and later to find the recovery id during the process of signing.
 
 ### Derive Ethereum address
-In order to obtain the Ethereum address, we need to first restore the full public key. This is done by concatenating the X and Y arrays.
+In order to obtain the Ethereum address, we need to restore the full public key first. This is done simply by concatenating the X and Y arrays. Note that elliptic curve keys may be prefixed with `0x04` as the starting byte making the key 65 bytes long. This is not needed in our case.
 ```fsharp
 let getPubKey (bundle:KeyBundle) : Buffer = 
      Array.concat [| bundle.Key.X; bundle.Key.Y |]
