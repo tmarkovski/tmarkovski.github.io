@@ -94,3 +94,35 @@ let computeHash (digest:IDigest) (data:Buffer) : Buffer =
     digest.DoFinal(result, 0) |> ignore
     result
 ```
+The output of Keccak is 64 byte hash (32 hex characters). The address is obtained by taking the last 40 bytes (20 hex chars) and prefixing it with `0x` for a total of 42 bytes.
+Here are the full details of the [EIP-150](http://gavwood.com/paper.pdf) spec for Ethereum.
+
+To obtain the address we need
+```fsharp
+let getAddress (pubKey:Buffer) : string =
+    pubKey
+    |> computeHash (KeccakDigest 256)
+    |> Array.map toHex
+    |> Array.skip 12
+    |> String.Concat
+    |> (+) "0x"
+```
+
+### Running the sample
+We're finally ready to run some sample codes.
+
+Create a key for Bob
+```fsharp
+newKeyParams
+|> createKey "bob"
+```
+
+Retrive the key and print the address
+```fsharp
+getKey "bob"
+|> getPubKey
+|> getAddress
+|> printfn "Address: %s"
+
+// 0xd2b70621c23ad7c65be579999021dd87b16fe522
+```
