@@ -15,9 +15,7 @@ The code assumes that Key Vault is configured with a service principal access, b
 ```fsharp
 let vaultUri = "https://...vault.azure.net/"
 let clientId = "..."
-let clientSecret ..."
-
-type AuthenticationCallback = KeyVaultClient.AuthenticationCallback
+let clientSecret "..."
 
 let getAccessToken (authority:string) (resource:string) (scope:string) =    
     let clientCredential = new ClientCredential(clientId, clientSecret)
