@@ -64,7 +64,12 @@ Running this in the F# interactive will return repsonse similar to this
 val it : KeyBundle =
   Microsoft.Azure.KeyVault.Models.KeyBundle
     {Attributes = Microsoft.Azure.KeyVault.Models.KeyAttributes;
-     Key = {"kid":"https://...vault.azure.net/keys/alice/73dcd8f08e704827873c0ca8519f4d0b","kty":"EC-HSM","key_ops":["sign","verify"],"crv":"SECP256K1","x":"ByCZWTlLs3X...","y":"eS0pFg2ALi2VDkw...."};
+     Key = {"kid":"https://...vault.azure.net/keys/alice/73dcd8f08e704827873c0ca8519f4d0b",
+            "kty":"EC-HSM",
+            "key_ops":["sign","verify"],
+            "crv":"SECP256K1",
+            "x":"ByCZWTlLs3X...",
+            "y":"eS0pFg2ALi2VDkw...."};
      KeyIdentifier = https://...vault.azure.net:443/keys/alice/73dcd8f08e704827873c0ca8519f4d0b;
      Managed = null;
      Tags = null;}
