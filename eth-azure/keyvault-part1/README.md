@@ -102,12 +102,12 @@ Here are the full details of the [EIP-150](http://gavwood.com/paper.pdf) spec fo
 To obtain the address we need
 ```fsharp
 let getAddress (pubKey:Buffer) : string =
-    pubKey
-    |> computeHash (KeccakDigest 256)
-    |> Array.map toHex
-    |> Array.skip 12
-    |> String.Concat
-    |> (+) "0x"
+    pubKey
+    |> computeHash (KeccakDigest 256)
+    |> Array.map toHex
+    |> Array.skip 12
+    |> String.Concat
+    |> (+) "0x"
 ```
 
 ### Running the sample
