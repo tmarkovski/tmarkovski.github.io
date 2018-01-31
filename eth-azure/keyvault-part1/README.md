@@ -131,6 +131,6 @@ getKey "bob"
 
 That's it! Bob is now ready to talk to the blockchain.
 
-Check out the [entire script code](https://github.com/tmarkovski/tmarkovski.github.io/blob/master/eth-azure/keyvault-part1/Script.fsx). I generated a sample project with `dotnet new console -lang f#` and just played with a the script file and F# interactive.
+Check out the [entire script code](https://github.com/tmarkovski/tmarkovski.github.io/blob/master/eth-azure/keyvault-part1/Script.fsx). I generated a sample project with `dotnet new console -lang f#` and just played with a script file and F# interactive.
 
 Feel free to reach out with any [questions or issues](https://github.com/tmarkovski/tmarkovski.github.io/issues).
