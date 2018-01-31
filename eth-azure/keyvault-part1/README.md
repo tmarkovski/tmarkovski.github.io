@@ -1,7 +1,7 @@
 # Securing Ethereum keys with Azure Key Vault
-## Part 1: Generating keys
-
 This is a multi part article showcasing interaction with Ethereum blockchain using keys secured in Azure Key Vault. In this part I'll show how to create EC keys and generate Ethereum address from the public key.
+***
+## Part 1: Generating keys
 
 Last year, Microsoft added support to [Key Vault](https://azure.microsoft.com/en-us/pricing/details/key-vault/) for elliptic curve keys including secp256k1 curve. Important thing to note is that this curve is only available for Key Vault under Premium SKU, not Standard.
 
