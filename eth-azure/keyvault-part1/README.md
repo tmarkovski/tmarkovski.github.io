@@ -1,8 +1,8 @@
 # Securing Ethereum keys with Azure Key Vault
-This is a multi part article showcasing interaction with Ethereum blockchain using keys secured in Azure Key Vault. In this part I'll show how to create EC keys and generate Ethereum address from the public key.
+This is a multi part article showcasing interaction with Ethereum blockchain using keys secured in Azure Key Vault. I wasn't able to find any articles on this, most resources available use the web3 tools to generate keys.
 * * *
 ## Part 1: Generating keys
-
+In this part I'll show how to create EC keys and generate Ethereum address from the public key using Azure Key Vault.
 Last year, Microsoft added support to [Key Vault](https://azure.microsoft.com/en-us/pricing/details/key-vault/) for elliptic curve keys including secp256k1 curve. Important thing to note is that this curve is only available for Key Vault under Premium SKU, not Standard.
 
 The sample code uses [Bouncy Castle](https://www.nuget.org/packages/Portable.BouncyCastle/) and [Azure Key Vault](https://www.nuget.org/packages/Microsoft.Azure.KeyVault/2.4.0-preview) preview package for .NET. Code is in F#, but it's easy to understand and recode to your flavor.
