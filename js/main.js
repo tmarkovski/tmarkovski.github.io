@@ -66,6 +66,9 @@ var main = {
 
     // show the big header image
     main.initImgs();
+
+    // remove extra div.hightlight tag added by github jekyll
+    $("div.highlighter-rouge div.highlight").removeClass("highlight")
   },
 
   initImgs : function() {
