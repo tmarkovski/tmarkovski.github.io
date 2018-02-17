@@ -2,7 +2,7 @@
 layout: post
 title: Ethereum and Azure Key Vault - Part 2
 subtitle: Signing offline transactions
-# bigimg: /img/path.jpg
+bigimg: /img/Image-2-17-18-10.20.jpg
 tags: [ethereum, azure-keyvault, f#]
 social-share: false
 ---
@@ -131,4 +131,4 @@ Once this is done, run `miner.start()` inside your geth console to start mining 
 
 Thank you for reading this. Feel free to reach out if you have any questions or leave a comment.
 
-[Full project source for Part 1 and Part 2](https://github.com/tmarkovski/ethereum-key-vault)
+[Full Source Code](https://github.com/tmarkovski/ethereum-key-vault){: .btn .btn-success .btn-lg}
