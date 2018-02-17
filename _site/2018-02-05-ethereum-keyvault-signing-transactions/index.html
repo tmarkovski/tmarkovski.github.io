@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Ethereum and Azure Key Vault - Part 2</title>
+
+  <meta name="author" content="Tomislav Markovski" />
+
+  
+  <meta name="description" content="Signing offline transactions">
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Tomislav Markovski - wittyTaglines |> shuffleR (Random ()) |> Seq.head" href="/feed.xml" />
+
+  
+
+  
+    
+      
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+
+  
+  <meta property="og:title" content="Ethereum and Azure Key Vault - Part 2" />
+  
+
+   
+  <meta property="og:description" content="Signing offline transactions">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://localhost:4000/2018-02-05-ethereum-keyvault-signing-transactions/" />
+  <link rel="canonical" href="http://localhost:4000/2018-02-05-ethereum-keyvault-signing-transactions/" />
+  
+
+  
+  <meta property="og:image" content="http://localhost:4000/img/imageedit_2_3951467018.gif" />
+  
+
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@" />
+  <meta name="twitter:creator" content="@" />
+
+  
+  <meta name="twitter:title" content="Ethereum and Azure Key Vault - Part 2" />
+  
+
+  
+  <meta name="twitter:description" content="Signing offline transactions">
+  
+
+  
+  <meta name="twitter:image" content="http://localhost:4000/img/imageedit_2_3951467018.gif" />
+  
+
+  
+
+</head>
+
+
+  <body>
+
+    
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+        <a class="navbar-brand" href="http://localhost:4000">Tomislav Markovski</a>
+      
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+            
+
+
+
+
+
+
+<a href="/aboutme">About Me</a>
+
+          </li>
+        
+        
+        
+          <li class="navlinks-container">
+            <a class="navlinks-parent" href="javascript:void(0)">Resources</a>
+            <div class="navlinks-children">
+              
+                
+                  
+
+
+
+
+
+
+<a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+
+                
+              
+                
+                  
+
+
+
+
+
+
+<a href="http://www.markdowntutorial.com/">Learn markdown</a>
+
+                
+              
+                
+                  
+
+
+
+
+
+
+<a href="https://pages.github.com/">GitHub Pages</a>
+
+                
+              
+            </div>
+          </li>
+        
+        
+        
+          <li>
+            
+
+
+
+
+
+
+<a href="http://deanattali.com">Author's home</a>
+
+          </li>
+        
+        
+      </ul>
+    </div>
+
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://localhost:4000 ">
+	      <img class="avatar-img" src="/img/imageedit_2_3951467018.gif" />
+		</a>
+	  </div>
+	</div>
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Ethereum and Azure Key Vault - Part 2</h1>
+		  
+		    
+			<h2 class="post-subheading">Signing offline transactions</h2>
+			
+		  
+		  
+		  
+		  <span class="post-meta">Posted on February 5, 2018</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+      
+
+      <article role="main" class="blog-post">
+        <div class="jumbotron">
+  <p>This is the second part of the article series of interacting with Ethereum blockchain by securing keys in Azure Key Vault. This part deals with creating, signing and sending offline transactions. If you haven’t yet, check out <a href="/2018-01-31-ethereum-keyvault-generating-keys">Part 1</a> which deals with key management and generating addresses.</p>
+
+  <p><a href="https://github.com/tmarkovski/ethereum-key-vault">The full F# source code for both articles is available on GitHub.</a></p>
+</div>
+
+<h2 id="part-2-sending-transactions">Part 2: Sending transactions</h2>
+<p>In order to be able to send transactions to the blockchain and use external key management source (not part of the Web3 or Geth tools) we can send raw transactions. These transactions are already signed, so they can be sent directly to the chain. Best way to test this transactions is to setup a local node using geth for testing purposes. Make sure to run the node with RPC enabled, so you can send the transactions directly from the F# project. I use the following command to start my node.</p>
+
+<p><code class="highlighter-rouge">geth --datadir ~/.eth_test/ --maxpeers 0 --nodiscover --rpc console</code></p>
+
+<p>Otherwise, you can simply send the transaction by sending it to the geth console using <code class="highlighter-rouge">eth.sendRawTransaction(trasnactionHash)</code>.</p>
+
+<p>This sample code uses Bouncy Castle and Nethereum libraries for .NET standard. Nethereum is a great library to work with Ethereum, but unfortunately it doesn’t support signing transactions outside of a running node, so we’ll just use it for some of the utility classes for serializing data using RLP.</p>
+
+<p>The process of creating an offline transaction for Ethereum is done in the following steps</p>
+
+<ul>
+  <li>Create a transaction object (receiver, amount, nonce)</li>
+  <li>Serialize and hash the transaction with Keccak 256</li>
+  <li>Sign the hashed message using Key Vault</li>
+  <li>Serialize the original message and the signed message</li>
+</ul>
+
+<h3 id="create-transaction-object">Create transaction object</h3>
+<p>Creating the transaction data is very straightforward. At the minimum, we need the receivers address, the amount to send and the nonce. The nonce is very important, sending an incorrect nonce will either be rejected or the transaction may be discarded by the miners. Fortunately, figuring out what the nonce is pretty easy. In essence it’s a transaction counter used to prevent replay attacks. To see what nonce you need to set for a certain transaction, simply get the transaction count for the sender’s address. For example, if Alice wants to send funds to Bob, we can find the total transactions for Alice using geth eth.getTransactionCount(“Alice’s address”) or the wrapper classes in the sample project that uses RPC.</p>
+
+<p>Let’s create a transaction to send 1 ETH to Bob from Alice.</p>
+
+<div class="language-cs highlighter-rouge"><pre class="highlight"><code><span class="c1">// Define amount to send and nonce
+</span><span class="k">let</span> <span class="n">amount</span> <span class="p">=</span> <span class="nf">etherToWei</span> <span class="p">(</span><span class="n">bigint</span> <span class="m">1</span><span class="p">)</span>
+<span class="k">let</span> <span class="n">nonce</span> <span class="p">=</span> <span class="nf">getTransactionCount</span> <span class="p">(</span><span class="n">getKey</span> <span class="s">"alice"</span> <span class="p">|&gt;</span> <span class="n">getAddress</span><span class="p">)</span>
+ 
+<span class="k">let</span> <span class="n">message</span> <span class="p">=</span>
+    <span class="nf">createTransaction</span> <span class="p">(</span><span class="n">getAddress</span> <span class="n">bobKey</span><span class="p">)</span> <span class="n">amount</span> <span class="n">nonce</span>
+    <span class="p">|&gt;</span> <span class="n">transactionToMessage</span>
+</code></pre>
+</div>
+<p>This will create a byte array of the data passed, setting some default values for gas price and gas limit. The next step is preparing the data for signing. This is done by RLP encoding the message and hashing it using Keccak 256. We can use the same function we used in part 1 to compute the hash.</p>
+
+<div class="language-cs highlighter-rouge"><pre class="highlight"><code><span class="c1">// Compute the hash of the message
+</span><span class="k">let</span> <span class="n">rawHash</span> <span class="p">=</span>
+    <span class="n">encodeRlp</span> <span class="n">message</span> <span class="n">None</span>
+    <span class="p">|&gt;</span> <span class="nf">computeHash</span> <span class="p">(</span><span class="n">KeccakDigest</span> <span class="m">256</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h3 id="signing-the-message">Signing the message</h3>
+<p>The process of signing the message is done in few steps. The final result will be contain R, S and V values. The R and S represent the signed message array, while V is the recovery id. The recovery is used to recover the original public key that was used to sign the message. Without the recovery id, the algorithm can only determine 4 public keys that are candidates and produce the same signed data. The recovery id helps us identify which one was actually used with the transaction.</p>
+
+<div class="language-cs highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="n">findRecoveryId</span> <span class="n">signature</span> <span class="n">message</span> <span class="n">publicKey</span> <span class="p">=</span>
+    <span class="k">let</span> <span class="n">isMatch</span> <span class="n">i</span> <span class="p">=</span>
+        <span class="k">let</span> <span class="n">recovered</span> <span class="p">=</span> <span class="n">ECKey</span><span class="p">.</span><span class="nf">RecoverFromSignature</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">signature</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="k">false</span><span class="p">)</span>
+        <span class="n">recovered</span> <span class="p">&lt;&gt;</span> <span class="k">null</span>
+        <span class="p">&amp;&amp;</span> <span class="nf">areEqual</span> <span class="p">(</span><span class="n">recovered</span><span class="p">.</span><span class="nf">GetPubKey</span><span class="p">(</span><span class="k">false</span><span class="p">))</span> <span class="n">publicKey</span>
+ 
+    <span class="p">[</span><span class="m">0</span> <span class="p">..</span> <span class="m">3</span><span class="p">]</span>
+    <span class="p">|&gt;</span> <span class="n">List</span><span class="p">.</span><span class="n">tryFind</span> <span class="n">isMatch</span>
+    <span class="p">|&gt;</span> <span class="n">fun</span> <span class="n">x</span> <span class="p">-&gt;</span> <span class="n">defaultArg</span> <span class="n">x</span> <span class="p">-</span><span class="m">1</span>
+</code></pre>
+</div>
+<p>The above code does brute force check using the recovery algorithm. Whenever a key is recovered that matches the original public key, we set that recovery id as V parameter of the signature.</p>
+
+<p>To sign the message with Key Vault, we add the function to our wrapper</p>
+
+<div class="language-cs highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="n">signKey</span> <span class="n">keyId</span> <span class="n">digest</span> <span class="p">=</span>
+    <span class="k">async</span> <span class="p">{</span>
+        <span class="k">let</span><span class="p">!</span> <span class="n">result</span> <span class="p">=</span> <span class="n">client</span><span class="p">.</span><span class="nf">SignAsync</span><span class="p">(</span><span class="n">keyId</span><span class="p">,</span> <span class="s">"ECDSA256"</span><span class="p">,</span> <span class="n">digest</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="p">}</span> <span class="p">|&gt;</span> <span class="n">Async</span><span class="p">.</span><span class="n">RunSynchronously</span>
+</code></pre>
+</div>
+<p>The output of this will be a 64 byte array. The first 32 are the value for R and the rest is S. We then append the value for V and return the entire signature object.</p>
+
+<div class="language-cs highlighter-rouge"><pre class="highlight"><code><span class="k">let</span> <span class="nf">signMessage</span> <span class="p">(</span><span class="n">keyBundle</span><span class="p">:</span><span class="n">KeyBundle</span><span class="p">)</span> <span class="n">message</span> <span class="p">=</span>
+    <span class="c1">// Construct public key and append 0x04
+</span>    <span class="k">let</span> <span class="n">pubKey</span> <span class="p">=</span> <span class="n">Array</span><span class="p">.</span><span class="n">concat</span> <span class="p">[|</span> <span class="p">[|</span> <span class="kt">byte</span> <span class="m">4</span><span class="p">|];</span> <span class="n">keyBundle</span><span class="p">.</span><span class="n">Key</span><span class="p">.</span><span class="n">X</span><span class="p">;</span> <span class="n">keyBundle</span><span class="p">.</span><span class="n">Key</span><span class="p">.</span><span class="n">Y</span> <span class="p">|]</span>
+    <span class="k">let</span> <span class="n">keyId</span> <span class="p">=</span> <span class="n">keyBundle</span><span class="p">.</span><span class="n">KeyIdentifier</span><span class="p">.</span><span class="n">Identifier</span>
+ 
+    <span class="c1">// Compute the hash of the message
+</span>    <span class="k">let</span> <span class="n">rawHash</span> <span class="p">=</span>
+        <span class="n">encodeRlp</span> <span class="n">message</span> <span class="n">None</span>
+        <span class="p">|&gt;</span> <span class="nf">computeHash</span> <span class="p">(</span><span class="n">KeccakDigest</span> <span class="m">256</span><span class="p">)</span>
+ 
+    <span class="c1">// Sign the hash with key vault and return ECDSASignature
+</span>    <span class="k">let</span> <span class="n">signature</span> <span class="p">=</span>
+        <span class="k">let</span> <span class="n">result</span> <span class="p">=</span> <span class="n">signKey</span> <span class="n">keyId</span> <span class="n">rawHash</span>
+ 
+        <span class="k">let</span> <span class="n">R</span> <span class="p">=</span> <span class="n">Array</span><span class="p">.</span><span class="n">take</span> <span class="m">32</span> <span class="n">result</span><span class="p">.</span><span class="n">Result</span>
+        <span class="k">let</span> <span class="n">S</span> <span class="p">=</span> <span class="n">Array</span><span class="p">.</span><span class="n">skip</span> <span class="m">32</span> <span class="n">result</span><span class="p">.</span><span class="n">Result</span>
+ 
+        <span class="p">[|</span> <span class="nf">BigInt</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">R</span><span class="p">)</span>
+           <span class="nf">BigInt</span><span class="p">(</span><span class="m">1</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span> <span class="p">|]</span>
+        <span class="p">|&gt;</span> <span class="n">ECDSASignature</span>
+        <span class="p">|&gt;</span> <span class="n">fun</span> <span class="n">x</span> <span class="p">-&gt;</span> <span class="n">x</span><span class="p">.</span><span class="nf">MakeCanonical</span><span class="p">()</span>
+ 
+    <span class="c1">// Find the recovery id
+</span>    <span class="k">let</span> <span class="n">recId</span> <span class="p">=</span> <span class="n">findRecoveryId</span> <span class="n">signature</span> <span class="n">rawHash</span> <span class="n">pubKey</span>
+ 
+    <span class="c1">// We must throw here, something went wrong
+</span>    <span class="k">if</span> <span class="n">recId</span> <span class="p">=</span> <span class="p">-</span><span class="m">1</span> <span class="n">then</span> <span class="n">failwith</span> <span class="s">"Invalid signature"</span>
+ 
+    <span class="n">signature</span><span class="p">.</span><span class="n">V</span> <span class="p">&lt;-</span> <span class="kt">byte</span> <span class="p">(</span><span class="n">recId</span> <span class="p">+</span> <span class="m">27</span><span class="p">)</span>
+    <span class="n">Some</span> <span class="n">signature</span>
+</code></pre>
+</div>
+
+<h3 id="serialize-everything-to-get-the-final-transaction-data">Serialize everything to get the final transaction data</h3>
+<p>Once we have everything nicely signed and formatted we’re ready to obtain the final raw data of the offline transaction. Let’s run everything in order</p>
+<div class="language-cs highlighter-rouge"><pre class="highlight"><code><span class="c1">// Construct the full offline transaction hash
+</span><span class="k">let</span> <span class="n">txHash</span> <span class="p">=</span>
+    <span class="n">message</span>
+    <span class="p">|&gt;</span> <span class="n">signMessage</span> <span class="n">aliceKey</span>
+    <span class="p">|&gt;</span> <span class="n">encodeRlp</span> <span class="n">message</span>
+    <span class="p">|&gt;</span> <span class="n">toHex</span>
+    <span class="p">|&gt;</span> <span class="p">(+)</span> <span class="s">"0x"</span>
+</code></pre>
+</div>
+<p>This will produce a hex string representing a transaction. We can commit this data inside geth using <code class="highlighter-rouge">eth.sendRawTransaction("txHash")</code> or use the RPC client wrapper function</p>
+<div class="language-cs highlighter-rouge"><pre class="highlight"><code><span class="n">sendRawTransaction</span> <span class="n">txHash</span>
+<span class="p">|&gt;</span> <span class="n">printfn</span> <span class="s">"Transaction %s sent"</span>
+</code></pre>
+</div>
+<p>Once this is done, run <code class="highlighter-rouge">miner.start()</code> inside your geth console to start mining the transactions. Bob should get 1 ETH on his address. Check with <code class="highlighter-rouge">eth.getBalance("bob's address")</code></p>
+
+<p>Thank you for reading this. Feel free to reach out if you have any questions or leave a comment.</p>
+
+<p><a href="https://github.com/tmarkovski/ethereum-key-vault">Full project source for Part 1 and Part 2</a></p>
+
+      </article>
+
+      
+        <div class="blog-tags">
+          Tags:
+          
+          
+            <a href="/tags#ethereum">ethereum</a>
+          
+            <a href="/tags#azure-keyvault">azure-keyvault</a>
+          
+            <a href="/tags#f#">f#</a>
+          
+          
+        </div>
+      
+
+      
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="/2018-01-31-ethereum-keyvault-generating-keys/" data-toggle="tooltip" data-placement="top" title="Ethereum and Azure Key Vault - Part 1">&larr; Previous Post</a>
+        </li>
+        
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links"><li><a href="/feed.xml" title="RSS"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">RSS</span>
+              </a>
+            </li><li><a href="mailto:tmarkovski@gmail.com" title="Email me"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Email me</span>
+              </a>
+            </li><li><a href="https://www.facebook.com/tmarkovski" title="Facebook"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Facebook</span>
+              </a>
+            </li><li><a href="https://github.com/tmarkovski" title="GitHub"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">GitHub</span>
+              </a>
+            </li><li><a href="https://twitter.com/tmarkovski" title="Twitter"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Twitter</span>
+              </a>
+            </li></ul>
+      <p class="copyright text-muted">
+      Tomislav Markovski
+      &nbsp;&bull;&nbsp;
+      2018
+
+      
+      &nbsp;&bull;&nbsp;
+      <a href="http://localhost:4000">tomislav.tech</a>
+      
+
+      
+      </p>
+          <!-- Please don't remove this, keep my open source work credited :) -->
+    <p class="theme-by text-muted">
+      Theme by
+      <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+      	  document.write('<script src="/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/main.js"></script>
+    
+  
+
+
+
+
+  
+  </body>
+</html>

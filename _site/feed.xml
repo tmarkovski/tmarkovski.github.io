@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tomislav Markovski</title>
+    <description>wittyTaglines |&gt; shuffleR (Random ()) |&gt; Seq.head</description>
+    <link>http://localhost:4000</link>
+    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>Ethereum and Azure Key Vault - Part 2</title>
+        <description>
+          Signing offline transactions - 
+          This is the second part of the article series of interacting with Ethereum blockchain by securing keys in Azure Key Vault. This part deals with creating, signing and sending offline transactions. If you haven’t yet, check out Part 1 which deals with key management and generating addresses. The full F#...
+        </description>
+        <pubDate>Mon, 05 Feb 2018 00:00:00 -0800</pubDate>
+        <link>http://localhost:4000/2018-02-05-ethereum-keyvault-signing-transactions/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018-02-05-ethereum-keyvault-signing-transactions/</guid>
+      </item>
+    
+      <item>
+        <title>Ethereum and Azure Key Vault - Part 1</title>
+        <description>
+          Generating keys and deriving address - 
+          This is a multi part article showcasing interaction with Ethereum blockchain using keys secured in Azure Key Vault. I wasn’t able to find any articles on this, most resources available use the web3 tools to generate keys, so I decided to share my findings using .NET and Azure. Part 2...
+        </description>
+        <pubDate>Wed, 31 Jan 2018 00:00:00 -0800</pubDate>
+        <link>http://localhost:4000/2018-01-31-ethereum-keyvault-generating-keys/</link>
+        <guid isPermaLink="true">http://localhost:4000/2018-01-31-ethereum-keyvault-generating-keys/</guid>
+      </item>
+    
+  </channel>
+</rss>
