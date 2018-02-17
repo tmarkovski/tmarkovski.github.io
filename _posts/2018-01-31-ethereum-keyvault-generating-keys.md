@@ -24,7 +24,7 @@ Full project source code is [available here](https://github.com/tmarkovski/ether
 ### Setup access to Key Vault
 The code assumes that Key Vault is configured with a service principal access, but this can adjusted to fit any authentication scenario.
 
-~~~cs
+```cs
 let vaultUri = "..."
 let clientId = "..."
 let clientSecret "..."
@@ -41,7 +41,7 @@ let client =
     AuthenticationCallback getAccessToken
     |> KeyVaultCredential
     |> KeyVaultClient
-~~~
+```
 
 Let’s add couple of functions for creating and retrieving keys
 
