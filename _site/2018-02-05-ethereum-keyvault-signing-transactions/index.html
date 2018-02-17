@@ -126,66 +126,7 @@
 
 
 
-<a href="/aboutme">About Me</a>
-
-          </li>
-        
-        
-        
-          <li class="navlinks-container">
-            <a class="navlinks-parent" href="javascript:void(0)">Resources</a>
-            <div class="navlinks-children">
-              
-                
-                  
-
-
-
-
-
-
-<a href="http://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
-
-                
-              
-                
-                  
-
-
-
-
-
-
-<a href="http://www.markdowntutorial.com/">Learn markdown</a>
-
-                
-              
-                
-                  
-
-
-
-
-
-
-<a href="https://pages.github.com/">GitHub Pages</a>
-
-                
-              
-            </div>
-          </li>
-        
-        
-        
-          <li>
-            
-
-
-
-
-
-
-<a href="http://deanattali.com">Author's home</a>
+<a href="https://www.github.com/tmarkovski">Fork me on GitHub</a>
 
           </li>
         
@@ -247,12 +188,14 @@
       
 
       <article role="main" class="blog-post">
-        <div class="jumbotron">
+        <blockquote>
+
   <p>This is the second part of the article series of interacting with Ethereum blockchain by securing keys in Azure Key Vault. This part deals with creating, signing and sending offline transactions. If you haven’t yet, check out <a href="/2018-01-31-ethereum-keyvault-generating-keys">Part 1</a> which deals with key management and generating addresses.</p>
 
   <p><a href="https://github.com/tmarkovski/ethereum-key-vault">The full F# source code for both articles is available on GitHub.</a></p>
-</div>
+</blockquote>
 
+<hr />
 <h2 id="part-2-sending-transactions">Part 2: Sending transactions</h2>
 <p>In order to be able to send transactions to the blockchain and use external key management source (not part of the Web3 or Geth tools) we can send raw transactions. These transactions are already signed, so they can be sent directly to the chain. Best way to test this transactions is to setup a local node using geth for testing purposes. Make sure to run the node with RPC enabled, so you can send the transactions directly from the F# project. I use the following command to start my node.</p>
 

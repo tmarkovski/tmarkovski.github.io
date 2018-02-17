@@ -3,12 +3,12 @@ layout: post
 title: Ethereum and Azure Key Vault - Part 1
 subtitle: Generating keys and deriving address
 ---
-<div markdown="1" class="jumbotron">
+>
 This is a multi part article showcasing interaction with Ethereum blockchain using keys secured in Azure Key Vault. I wasn’t able to find any articles on this, most resources available use the web3 tools to generate keys, so I decided to share my findings using .NET and Azure.
-
+>
 Part 2 of this series is available at [Ethereum and Azure Key Vault. Part 2 – Signing offline transactions](/2018-02-05-ethereum-keyvault-signing-transactions)
-</div>
 
+---
 ## Part 1: Generating keys and ethereum address
 
 - Setup access to Key Vault
@@ -113,7 +113,7 @@ The output of Keccak is 64 byte hash (32 hex characters). The address is obtaine
 
 To obtain the address we need
 
-~~~haskell
+~~~cs
 let getAddress (pubKey:Buffer) : string =
      pubKey
      |> computeHash (KeccakDigest 256)
@@ -143,8 +143,9 @@ getKey "bob"
 
 That’s it! Bob is now ready to talk to the blockchain.
 
+---
 Check out the [entire source code](https://github.com/tmarkovski/ethereum-key-vault). I generated a sample project with `dotnet new console -lang f#` and just played with a script file and F# interactive.
 
 Feel free to reach out with any questions or issues.
 
-If you liked this article, please check out part 2 – Ethereum with Azure Key Vault. Part 2 – Sending transactions
+If you liked this article, please check out [part 2 on signing offline transactions](/2018-02-05-ethereum-keyvault-signing-transactions).

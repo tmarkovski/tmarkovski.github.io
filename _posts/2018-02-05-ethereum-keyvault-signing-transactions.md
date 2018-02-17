@@ -6,12 +6,12 @@ subtitle: Signing offline transactions
 tags: [ethereum, azure-keyvault, f#]
 social-share: false
 ---
-<div markdown="1" class="jumbotron">
+>
 This is the second part of the article series of interacting with Ethereum blockchain by securing keys in Azure Key Vault. This part deals with creating, signing and sending offline transactions. If you haven’t yet, check out [Part 1](/2018-01-31-ethereum-keyvault-generating-keys) which deals with key management and generating addresses.
-
+>
 [The full F# source code for both articles is available on GitHub.](https://github.com/tmarkovski/ethereum-key-vault)
-</div>
 
+---
 ## Part 2: Sending transactions
 In order to be able to send transactions to the blockchain and use external key management source (not part of the Web3 or Geth tools) we can send raw transactions. These transactions are already signed, so they can be sent directly to the chain. Best way to test this transactions is to setup a local node using geth for testing purposes. Make sure to run the node with RPC enabled, so you can send the transactions directly from the F# project. I use the following command to start my node.
 
